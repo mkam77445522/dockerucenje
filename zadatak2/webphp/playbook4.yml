@@ -16,10 +16,12 @@
         copy: src=src/index.php dest=/var/www/html/index.php
         copy: src=supervisord.conf dest=/etc/supervisor/conf.d/supervisord.conf
 
-      - name: Startup_script
-        sudo: yes
-        ignore_errors: yes
-        script: /home/sscript.sh
+      - supervisorctl:
+            name: docker
+#            ignore_errors: yes
+            state: present
+            config: supervisord.conf
+
 #      - supervisorctl:
       - name: Supervisor
         command: systemctl enable supervisor
