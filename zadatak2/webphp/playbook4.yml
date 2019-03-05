@@ -14,7 +14,7 @@
       - name: Copy files
         copy: src=config/nginx.conf dest=/etc/nginx/nginx.conf
         copy: src=src/index.php dest=/var/www/html/index.php
-        copy: src=/home/sscript.sh dest=/etc/supervisor/conf.d/supervisord.conf
+        copy: src=supervisord.conf dest=/etc/supervisor/conf.d/supervisord.conf
 
       - name: Startup_script
         sudo: yes
