@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  sudo: yes
+
+  tasks:
+      - name: Install docker
+        apt:
+            name: docker.io
+            state: latest
+      - name: Install supervisor
+        apt:
+            name: supervisor
+            state: latest
+      - name: Copy files
+        copy: src=config/nginx.conf dest=/etc/nginx/nginx.conf
+        copy: src=src/index.php dest=/var/www/html/index.php
+        copy: src=/home/sscript.sh dest=/etc/supervisor/conf.d/supervisord.conf
+
+      - name: Startup_script
+        sudo: yes
+        ignore_errors: yes
+        script: /home/sscript.sh
+#      - supervisorctl:
+      - name: Supervisor
+        command: systemctl enable supervisor
+            
+
+  environment:
+      - PATH: /opt/run/webphp/{log,config}:{{ ansible_env.PATH }}
+
